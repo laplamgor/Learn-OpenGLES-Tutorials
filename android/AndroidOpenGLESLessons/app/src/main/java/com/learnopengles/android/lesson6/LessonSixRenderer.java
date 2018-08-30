@@ -415,8 +415,8 @@ public class LessonSixRenderer implements GLSurfaceView.Renderer
 		// view matrix. In OpenGL 2, we can keep track of these matrices separately if we choose.
 		Matrix.setLookAtM(mViewMatrix, 0, eyeX, eyeY, eyeZ, lookX, lookY, lookZ, upX, upY, upZ);		
 
-		final String vertexShader = RawResourceReader.readTextFileFromRawResource(mActivityContext, R.raw.per_pixel_vertex_shader_tex_and_light);   		
- 		final String fragmentShader = RawResourceReader.readTextFileFromRawResource(mActivityContext, R.raw.per_pixel_fragment_shader_tex_and_light);			
+		final String vertexShader = RawResourceReader.readTextFileFromRawResource(mActivityContext, R.raw.per_pixel_vertex_shader_height);
+ 		final String fragmentShader = RawResourceReader.readTextFileFromRawResource(mActivityContext, R.raw.per_pixel_fragment_shader_height);
 		
 		final int vertexShaderHandle = ShaderHelper.compileShader(GLES20.GL_VERTEX_SHADER, vertexShader);		
 		final int fragmentShaderHandle = ShaderHelper.compileShader(GLES20.GL_FRAGMENT_SHADER, fragmentShader);		
@@ -434,7 +434,7 @@ public class LessonSixRenderer implements GLSurfaceView.Renderer
         		new String[] {"a_Position"}); 
         
         // Load the texture
-        mBrickDataHandle = TextureHelper.loadTexture(mActivityContext, R.drawable.stone_wall_public_domain);        
+        mBrickDataHandle = TextureHelper.loadTexture(mActivityContext, R.drawable.height);
         GLES20.glGenerateMipmap(GLES20.GL_TEXTURE_2D);
         
         mGrassDataHandle = TextureHelper.loadTexture(mActivityContext, R.drawable.noisy_grass_public_domain);
