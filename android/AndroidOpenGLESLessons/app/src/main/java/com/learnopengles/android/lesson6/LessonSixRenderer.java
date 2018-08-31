@@ -566,30 +566,30 @@ public class LessonSixRenderer implements GLSurfaceView.Renderer
         GLES20.glEnableVertexAttribArray(mTextureCoordinateHandle);
         
         drawCube();  
-        
-        // Draw a plane
-        Matrix.setIdentityM(mModelMatrix, 0);
-        Matrix.translateM(mModelMatrix, 0, 0.0f, -2.0f, -5.0f);
-        Matrix.scaleM(mModelMatrix, 0, 25.0f, 1.0f, 25.0f);
-        Matrix.rotateM(mModelMatrix, 0, slowAngleInDegrees, 0.0f, 1.0f, 0.0f);
-        
-        // Set the active texture unit to texture unit 0.
-        GLES20.glActiveTexture(GLES20.GL_TEXTURE0);
-        
-        // Bind the texture to this unit.
-        GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, mGrassDataHandle);
-        
-        // Tell the texture uniform sampler to use this texture in the shader by binding to texture unit 0.
-        GLES20.glUniform1i(mTextureUniformHandle, 0);
-        
-        // Pass in the texture coordinate information
-        mCubeTextureCoordinatesForPlane.position(0);
-        GLES20.glVertexAttribPointer(mTextureCoordinateHandle, mTextureCoordinateDataSize, GLES20.GL_FLOAT, false, 
-        		0, mCubeTextureCoordinatesForPlane);
-        
-        GLES20.glEnableVertexAttribArray(mTextureCoordinateHandle);
-        
-        drawCube();
+//
+//        // Draw a plane
+//        Matrix.setIdentityM(mModelMatrix, 0);
+//        Matrix.translateM(mModelMatrix, 0, 0.0f, -2.0f, -5.0f);
+//        Matrix.scaleM(mModelMatrix, 0, 25.0f, 1.0f, 25.0f);
+//        Matrix.rotateM(mModelMatrix, 0, slowAngleInDegrees, 0.0f, 1.0f, 0.0f);
+//
+//        // Set the active texture unit to texture unit 0.
+//        GLES20.glActiveTexture(GLES20.GL_TEXTURE0);
+//
+//        // Bind the texture to this unit.
+//        GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, mGrassDataHandle);
+//
+//        // Tell the texture uniform sampler to use this texture in the shader by binding to texture unit 0.
+//        GLES20.glUniform1i(mTextureUniformHandle, 0);
+//
+//        // Pass in the texture coordinate information
+//        mCubeTextureCoordinatesForPlane.position(0);
+//        GLES20.glVertexAttribPointer(mTextureCoordinateHandle, mTextureCoordinateDataSize, GLES20.GL_FLOAT, false,
+//        		0, mCubeTextureCoordinatesForPlane);
+//
+//        GLES20.glEnableVertexAttribArray(mTextureCoordinateHandle);
+//
+//        drawCube();
         
         // Draw a point to indicate the light.
         GLES20.glUseProgram(mPointProgramHandle);        
