@@ -69,9 +69,28 @@ public class LessonSixRenderer implements GLSurfaceView.Renderer
 		
 	/** This will be used to pass in the transformation matrix. */
 	private int mMVPMatrixHandle;
+
+
+    /** This will be used to pass in the projection matrix. */
+    private int mPMatrixHandle;
+
+
+    /** This will be used to pass in the view matrix. */
+    private int mVMatrixHandle;
 	
 	/** This will be used to pass in the modelview matrix. */
 	private int mMVMatrixHandle;
+
+
+
+	/** This will be used to pass in the model matrix. */
+	private int mMMatrixHandle;
+
+
+
+
+	/** This will be used to pass in the view position. */
+	private int mViewPosHandle;
 	
 	/** This will be used to pass in the light position. */
 	private int mLightPosHandle;
@@ -398,12 +417,12 @@ public class LessonSixRenderer implements GLSurfaceView.Renderer
 		// Position the eye in front of the origin.
 		final float eyeX = 0.0f;
 		final float eyeY = 0.0f;
-		final float eyeZ = -0.5f;
+		final float eyeZ = 0.0f;
 
 		// We are looking toward the distance
 		final float lookX = 0.0f;
 		final float lookY = 0.0f;
-		final float lookZ = -5.0f;
+		final float lookZ = -1.0f;
 
 		// Set our up vector. This is where our head would be pointing were we holding the camera.
 		final float upX = 0.0f;
@@ -488,8 +507,13 @@ public class LessonSixRenderer implements GLSurfaceView.Renderer
         GLES20.glUseProgram(mProgramHandle);
         
         // Set program handles for cube drawing.
+        mPMatrixHandle = GLES20.glGetUniformLocation(mProgramHandle, "u_PMatrix");
+        mVMatrixHandle = GLES20.glGetUniformLocation(mProgramHandle, "u_VMatrix");
+
         mMVPMatrixHandle = GLES20.glGetUniformLocation(mProgramHandle, "u_MVPMatrix");
-        mMVMatrixHandle = GLES20.glGetUniformLocation(mProgramHandle, "u_MVMatrix"); 
+        mMVMatrixHandle = GLES20.glGetUniformLocation(mProgramHandle, "u_MVMatrix");
+		mMMatrixHandle = GLES20.glGetUniformLocation(mProgramHandle, "u_MMatrix");
+		mViewPosHandle = GLES20.glGetUniformLocation(mProgramHandle, "viewPos");
         mLightPosHandle = GLES20.glGetUniformLocation(mProgramHandle, "u_LightPos");
         mTextureUniformHandle = GLES20.glGetUniformLocation(mProgramHandle, "u_Texture");
         mPositionHandle = GLES20.glGetAttribLocation(mProgramHandle, "a_Position");        
@@ -508,7 +532,7 @@ public class LessonSixRenderer implements GLSurfaceView.Renderer
         // Draw a cube.
         // Translate the cube into the screen.
         Matrix.setIdentityM(mModelMatrix, 0);
-        Matrix.translateM(mModelMatrix, 0, 0.0f, 0.8f, -3.5f);     
+        Matrix.translateM(mModelMatrix, 0, 0.0f, 0.0f, -3.5f);
         
         // Set a matrix that contains the current rotation.
         Matrix.setIdentityM(mCurrentRotation, 0);        
@@ -619,19 +643,37 @@ public class LessonSixRenderer implements GLSurfaceView.Renderer
         GLES20.glVertexAttribPointer(mNormalHandle, mNormalDataSize, GLES20.GL_FLOAT, false, 
         		0, mCubeNormals);
         
-        GLES20.glEnableVertexAttribArray(mNormalHandle);                
+        GLES20.glEnableVertexAttribArray(mNormalHandle);
+
+		// Pass in the model matrix.
+		GLES20.glUniformMatrix4fv(mMMatrixHandle, 1, false, mModelMatrix, 0);
         
 		// This multiplies the view matrix by the model matrix, and stores the result in the MVP matrix
         // (which currently contains model * view).
         Matrix.multiplyMM(mMVPMatrix, 0, mViewMatrix, 0, mModelMatrix, 0);   
-        
+
         // Pass in the modelview matrix.
-        GLES20.glUniformMatrix4fv(mMVMatrixHandle, 1, false, mMVPMatrix, 0);                
-        
-        // This multiplies the modelview matrix by the projection matrix, and stores the result in the MVP matrix
+        GLES20.glUniformMatrix4fv(mMVMatrixHandle, 1, false, mMVPMatrix, 0);
+
+
+		// Pass in the view position.
+		final float eyeX = 0.0f;
+		final float eyeY = 0.0f;
+		final float eyeZ = 3.5f;
+		GLES20.glUniform3f(mViewPosHandle, eyeX, eyeY, eyeZ);
+
+
+		// This multiplies the modelview matrix by the projection matrix, and stores the result in the MVP matrix
         // (which now contains model * view * projection).        
         Matrix.multiplyMM(mTemporaryMatrix, 0, mProjectionMatrix, 0, mMVPMatrix, 0);
         System.arraycopy(mTemporaryMatrix, 0, mMVPMatrix, 0, 16);
+
+        // Pass in the projection matrix.
+        GLES20.glUniformMatrix4fv(mPMatrixHandle, 1, false, mProjectionMatrix, 0);
+
+        // Pass in the view matrix.
+        GLES20.glUniformMatrix4fv(mVMatrixHandle, 1, false, mViewMatrix, 0);
+
 
         // Pass in the combined matrix.
         GLES20.glUniformMatrix4fv(mMVPMatrixHandle, 1, false, mMVPMatrix, 0);
