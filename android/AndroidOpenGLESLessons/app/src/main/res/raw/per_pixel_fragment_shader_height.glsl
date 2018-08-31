@@ -43,14 +43,18 @@ vec2 ParallaxMapping(vec2 texCoords, vec3 viewDir)
     vec2  currentTexCoords     = texCoords;
     float currentDepthMapValue = 1.0-texture2D(u_Texture, currentTexCoords).r;
 
+    int layerCount = 0;
     while(currentLayerDepth < currentDepthMapValue)
     {
+        ++layerCount;
+
         // shift texture coordinates along direction of P
-        currentTexCoords -= deltaTexCoords;
+        currentTexCoords = texCoords - P * float(layerCount)/ numLayers;
+
         // get depthmap value at current texture coordinates
         currentDepthMapValue = 1.0-texture2D(u_Texture, currentTexCoords).r;
         // get depth of next layer
-        currentLayerDepth += layerDepth;
+        currentLayerDepth = float(layerCount)/ numLayers;
     }
 
     // -- parallax occlusion mapping interpolation from here on
