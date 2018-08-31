@@ -42,7 +42,7 @@ void main()
     vec3 world_tangent;
     vec3 binormal;
 
-    vec3 Normal = normalize(a_Normal*2.0-1.0);
+    vec3 Normal = normalize(a_Normal);
 
     vec3 c1 = cross(vec3(0.0, 0.0, 1.0), Normal);
     vec3 c2 = cross(vec3(0.0, 1.0, 0.0), Normal);
