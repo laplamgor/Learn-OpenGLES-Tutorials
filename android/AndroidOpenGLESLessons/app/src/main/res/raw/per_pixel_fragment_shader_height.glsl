@@ -15,14 +15,6 @@ varying vec3 vTangentFragPos;
 
 
 vec2 ParallaxMapping(vec2 texCoords, vec3 viewDir);
-vec2 ParallaxMapping1(vec2 texCoords, vec3 viewDir);
-
-// The Parallax Mapping
-vec2 ParallaxMapping1(vec2 texCoords, vec3 viewDir)
-{
-    float height =  1.0-texture2D(u_Texture, texCoords).r;
-    return texCoords - viewDir.xy / viewDir.z * (height * 0.111);
-}
 
 // Parallax Occlusion Mapping
 vec2 ParallaxMapping(vec2 texCoords, vec3 viewDir)
@@ -36,7 +28,7 @@ vec2 ParallaxMapping(vec2 texCoords, vec3 viewDir)
     // depth of current layer
     float currentLayerDepth = 0.0;
     // the amount to shift the texture coordinates per layer (from vector P)
-    vec2 P = viewDir.xy / viewDir.z * 0.111;
+    vec2 P = viewDir.xy / viewDir.z * 0.151;
     vec2 deltaTexCoords = P / numLayers;
 
     // get initial values
