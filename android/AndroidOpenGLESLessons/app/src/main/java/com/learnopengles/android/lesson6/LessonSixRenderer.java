@@ -218,20 +218,20 @@ public class LessonSixRenderer implements GLSurfaceView.Renderer {
                         // usually represent the backside of an object and aren't visible anyways.
 
                         // Front face
-                        -1.0f, 1.0f, 1.0f,
-                        -1.0f, -1.0f, 1.0f,
-                        1.0f, 1.0f, 1.0f,
-                        -1.0f, -1.0f, 1.0f,
-                        1.0f, -1.0f, 1.0f,
-                        1.0f, 1.0f, 1.0f,
+                        -2.0f, 2.0f, 1.0f,
+                        -2.0f, -2.0f, 1.0f,
+                        2.0f, 2.0f, 1.0f,
+                        -2.0f, -2.0f, 1.0f,
+                        2.0f, -2.0f, 1.0f,
+                        2.0f, 2.0f, 1.0f,
 
 
-                        0.0f, 1.0f, 0.0f,
-                        0.0f, -1.0f, 0.0f,
-                        2.0f, 1.0f, 0.0f,
-                        0.0f, -1.0f, 0.0f,
-                        2.0f, -1.0f, 0.0f,
-                        2.0f, 1.0f, 0.0f
+                        -2.0f, 2.0f, 0.0f,
+                        -2.0f, -2.0f, 0.0f,
+                        2.0f, 2.0f, 0.0f,
+                        -2.0f, -2.0f, 0.0f,
+                        2.0f, -2.0f, 0.0f,
+                        2.0f, 2.0f, 0.0f
                 };
 
         // X, Y, Z
@@ -496,7 +496,7 @@ public class LessonSixRenderer implements GLSurfaceView.Renderer {
                 new String[]{"a_Position"});
 
         // Load the texture
-        mBrickDataHandle = TextureHelper.loadTexture(mActivityContext, R.drawable.height2);
+        mBrickDataHandle = TextureHelper.loadTexture(mActivityContext, R.drawable.height);
         GLES20.glGenerateMipmap(GLES20.GL_TEXTURE_2D);
 
         mGrassDataHandle = TextureHelper.loadTexture(mActivityContext, R.drawable.noisy_grass_public_domain);
@@ -526,7 +526,7 @@ public class LessonSixRenderer implements GLSurfaceView.Renderer {
         final float right = ratio;
         final float bottom = -1.0f;
         final float top = 1.0f;
-        final float near = 1.0f;
+        final float near = 3.0f;
         final float far = 1000.0f;
 
         Matrix.frustumM(mProjectionMatrix, 0, left, right, bottom, top, near, far);
@@ -571,7 +571,7 @@ public class LessonSixRenderer implements GLSurfaceView.Renderer {
         // Draw a cube.
         // Translate the cube into the screen.
         Matrix.setIdentityM(mModelMatrix, 0);
-        Matrix.translateM(mModelMatrix, 0, 0.0f, 0.0f, -3f);
+        Matrix.translateM(mModelMatrix, 0, 0.0f, 0.0f, -6f);
 
         // Set a matrix that contains the current rotation.
         Matrix.setIdentityM(mCurrentRotation, 0);
