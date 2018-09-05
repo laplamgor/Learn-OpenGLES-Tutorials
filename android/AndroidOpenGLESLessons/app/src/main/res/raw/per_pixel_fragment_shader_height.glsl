@@ -1,8 +1,11 @@
 precision mediump float;       	// Set the default precision to medium. We don't need as high of a 
 								// precision in the fragment shader.
 uniform vec3 u_LightPos;       	// The position of the light in eye space.
+
 uniform sampler2D u_Texture;    // The input texture.
-  
+uniform sampler2D u_Height;     // The input texture.
+uniform sampler2D u_Mask;       // The input texture.
+
 varying vec3 v_Position;		// Interpolated position for this fragment.
 varying vec3 v_Normal;         	// Interpolated normal for this fragment.
 varying vec2 v_TexCoordinate;   // Interpolated texture coordinate per fragment.
@@ -28,12 +31,12 @@ vec2 ParallaxMapping(vec2 texCoords, vec3 viewDir)
     // depth of current layer
     float currentLayerDepth = 0.0;
     // the amount to shift the texture coordinates per layer (from vector P)
-    vec2 P = viewDir.xy / viewDir.z * 0.151;
+    vec2 P = viewDir.xy / viewDir.z * 0.31;
     vec2 deltaTexCoords = P / numLayers;
 
     // get initial values
     vec2  currentTexCoords     = texCoords;
-    float currentDepthMapValue = 1.0-texture2D(u_Texture, currentTexCoords).r;
+    float currentDepthMapValue = 1.0-texture2D(u_Height, currentTexCoords).r;
 
     int layerCount = 0;
     while(currentLayerDepth < currentDepthMapValue)
@@ -44,7 +47,7 @@ vec2 ParallaxMapping(vec2 texCoords, vec3 viewDir)
         currentTexCoords = texCoords - P * float(layerCount)/ numLayers;
 
         // get depthmap value at current texture coordinates
-        currentDepthMapValue = 1.0-texture2D(u_Texture, currentTexCoords).r;
+        currentDepthMapValue = 1.0-texture2D(u_Height, currentTexCoords).r;
         // get depth of next layer
         currentLayerDepth = float(layerCount)/ numLayers;
     }
@@ -56,7 +59,7 @@ vec2 ParallaxMapping(vec2 texCoords, vec3 viewDir)
 
     // get depth after and before collision for linear interpolation
     float afterDepth  = currentDepthMapValue - currentLayerDepth;
-    float beforeDepth = 1.0-texture2D(u_Texture, prevTexCoords).r - currentLayerDepth + layerDepth;
+    float beforeDepth = 1.0-texture2D(u_Height, prevTexCoords).r - currentLayerDepth + layerDepth;
 
     // interpolation of texture coordinates
     float weight = afterDepth / (afterDepth - beforeDepth);
@@ -102,8 +105,14 @@ void main()
     // Add ambient lighting
     diffuse = diffuse + 0.7;
 
+
+
+//    if(texture2D(u_Mask, texCoords).r == 0)
+//       discard;
+
 	// Multiply the color by the diffuse illumination level and texture value to get final output color.
 	vec4 textureColor = texture2D(u_Texture, texCoords);
+
     gl_FragColor = (diffuse * textureColor );
 }
 

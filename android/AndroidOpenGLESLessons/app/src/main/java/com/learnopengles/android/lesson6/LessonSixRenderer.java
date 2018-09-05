@@ -124,6 +124,12 @@ public class LessonSixRenderer implements GLSurfaceView.Renderer {
      */
     private int mTextureUniformHandle;
 
+
+    /**
+     * This will be used to pass in the texture.
+     */
+    private int mHeightUniformHandle;
+
     /**
      * This will be used to pass in model position information.
      */
@@ -189,6 +195,10 @@ public class LessonSixRenderer implements GLSurfaceView.Renderer {
      * These are handles to our texture data.
      */
     private int mBrickDataHandle;
+
+    private int mHeightMapDataHandle;
+    private int mDiffuseMapDataHandle;
+
     private int mGrassDataHandle;
 
     /**
@@ -218,12 +228,12 @@ public class LessonSixRenderer implements GLSurfaceView.Renderer {
                         // usually represent the backside of an object and aren't visible anyways.
 
                         // Front face
-                        -2.0f, 2.0f, 1.0f,
-                        -2.0f, -2.0f, 1.0f,
-                        2.0f, 2.0f, 1.0f,
-                        -2.0f, -2.0f, 1.0f,
-                        2.0f, -2.0f, 1.0f,
-                        2.0f, 2.0f, 1.0f,
+                        -2.0f, 2.0f, -8.0f,
+                        -2.0f, -2.0f, -8.0f,
+                        2.0f, 2.0f, -8.0f,
+                        -2.0f, -2.0f, -8.0f,
+                        2.0f, -2.0f, -8.0f,
+                        2.0f, 2.0f, -8.0f,
 
 
                         -2.0f, 2.0f, 0.0f,
@@ -255,46 +265,6 @@ public class LessonSixRenderer implements GLSurfaceView.Renderer {
                         0.0f, 0.0f, 1.0f,
                         0.0f, 0.0f, 1.0f,
                         0.0f, 0.0f, 1.0f
-//
-//                        // Right face
-//                        1.0f, 0.0f, 0.0f,
-//                        1.0f, 0.0f, 0.0f,
-//                        1.0f, 0.0f, 0.0f,
-//                        1.0f, 0.0f, 0.0f,
-//                        1.0f, 0.0f, 0.0f,
-//                        1.0f, 0.0f, 0.0f,
-//
-//                        // Back face
-//                        0.0f, 0.0f, -1.0f,
-//                        0.0f, 0.0f, -1.0f,
-//                        0.0f, 0.0f, -1.0f,
-//                        0.0f, 0.0f, -1.0f,
-//                        0.0f, 0.0f, -1.0f,
-//                        0.0f, 0.0f, -1.0f,
-//
-//                        // Left face
-//                        -1.0f, 0.0f, 0.0f,
-//                        -1.0f, 0.0f, 0.0f,
-//                        -1.0f, 0.0f, 0.0f,
-//                        -1.0f, 0.0f, 0.0f,
-//                        -1.0f, 0.0f, 0.0f,
-//                        -1.0f, 0.0f, 0.0f,
-//
-//                        // Top face
-//                        0.0f, 1.0f, 0.0f,
-//                        0.0f, 1.0f, 0.0f,
-//                        0.0f, 1.0f, 0.0f,
-//                        0.0f, 1.0f, 0.0f,
-//                        0.0f, 1.0f, 0.0f,
-//                        0.0f, 1.0f, 0.0f,
-//
-//                        // Bottom face
-//                        0.0f, -1.0f, 0.0f,
-//                        0.0f, -1.0f, 0.0f,
-//                        0.0f, -1.0f, 0.0f,
-//                        0.0f, -1.0f, 0.0f,
-//                        0.0f, -1.0f, 0.0f,
-//                        0.0f, -1.0f, 0.0f
                 };
 
         // S, T (or X, Y)
@@ -318,46 +288,6 @@ public class LessonSixRenderer implements GLSurfaceView.Renderer {
                         0.0f, 1.0f,
                         1.0f, 1.0f,
                         1.0f, 0.0f
-//
-//                        // Right face
-//                        0.0f, 0.0f,
-//                        0.0f, 1.0f,
-//                        1.0f, 0.0f,
-//                        0.0f, 1.0f,
-//                        1.0f, 1.0f,
-//                        1.0f, 0.0f,
-//
-//                        // Back face
-//                        0.0f, 0.0f,
-//                        0.0f, 1.0f,
-//                        1.0f, 0.0f,
-//                        0.0f, 1.0f,
-//                        1.0f, 1.0f,
-//                        1.0f, 0.0f,
-//
-//                        // Left face
-//                        0.0f, 0.0f,
-//                        0.0f, 1.0f,
-//                        1.0f, 0.0f,
-//                        0.0f, 1.0f,
-//                        1.0f, 1.0f,
-//                        1.0f, 0.0f,
-//
-//                        // Top face
-//                        0.0f, 0.0f,
-//                        0.0f, 1.0f,
-//                        1.0f, 0.0f,
-//                        0.0f, 1.0f,
-//                        1.0f, 1.0f,
-//                        1.0f, 0.0f,
-//
-//                        // Bottom face
-//                        0.0f, 0.0f,
-//                        0.0f, 1.0f,
-//                        1.0f, 0.0f,
-//                        0.0f, 1.0f,
-//                        1.0f, 1.0f,
-//                        1.0f, 0.0f
                 };
 
         // S, T (or X, Y)
@@ -382,46 +312,6 @@ public class LessonSixRenderer implements GLSurfaceView.Renderer {
                         0.0f, 25.0f,
                         25.0f, 25.0f,
                         25.0f, 0.0f
-//
-//                        // Right face
-//                        0.0f, 0.0f,
-//                        0.0f, 25.0f,
-//                        25.0f, 0.0f,
-//                        0.0f, 25.0f,
-//                        25.0f, 25.0f,
-//                        25.0f, 0.0f,
-//
-//                        // Back face
-//                        0.0f, 0.0f,
-//                        0.0f, 25.0f,
-//                        25.0f, 0.0f,
-//                        0.0f, 25.0f,
-//                        25.0f, 25.0f,
-//                        25.0f, 0.0f,
-//
-//                        // Left face
-//                        0.0f, 0.0f,
-//                        0.0f, 25.0f,
-//                        25.0f, 0.0f,
-//                        0.0f, 25.0f,
-//                        25.0f, 25.0f,
-//                        25.0f, 0.0f,
-//
-//                        // Top face
-//                        0.0f, 0.0f,
-//                        0.0f, 25.0f,
-//                        25.0f, 0.0f,
-//                        0.0f, 25.0f,
-//                        25.0f, 25.0f,
-//                        25.0f, 0.0f,
-//
-//                        // Bottom face
-//                        0.0f, 0.0f,
-//                        0.0f, 25.0f,
-//                        25.0f, 0.0f,
-//                        0.0f, 25.0f,
-//                        25.0f, 25.0f,
-//                        25.0f, 0.0f
                 };
 
         // Initialize the buffers.
@@ -496,8 +386,17 @@ public class LessonSixRenderer implements GLSurfaceView.Renderer {
                 new String[]{"a_Position"});
 
         // Load the texture
-        mBrickDataHandle = TextureHelper.loadTexture(mActivityContext, R.drawable.height);
+
+
+        mHeightMapDataHandle = TextureHelper.loadTexture(mActivityContext, R.drawable.height2);
         GLES20.glGenerateMipmap(GLES20.GL_TEXTURE_2D);
+
+        mBrickDataHandle = TextureHelper.loadTexture(mActivityContext, R.drawable.height2);
+        GLES20.glGenerateMipmap(GLES20.GL_TEXTURE_2D);
+
+        mDiffuseMapDataHandle = TextureHelper.loadTexture(mActivityContext, R.drawable.height2);
+        GLES20.glGenerateMipmap(GLES20.GL_TEXTURE_2D);
+
 
         mGrassDataHandle = TextureHelper.loadTexture(mActivityContext, R.drawable.noisy_grass_public_domain);
         GLES20.glGenerateMipmap(GLES20.GL_TEXTURE_2D);
@@ -526,8 +425,8 @@ public class LessonSixRenderer implements GLSurfaceView.Renderer {
         final float right = ratio;
         final float bottom = -1.0f;
         final float top = 1.0f;
-        final float near = 3.0f;
-        final float far = 1000.0f;
+        final float near = 2.0f;
+        final float far = 500.0f;
 
         Matrix.frustumM(mProjectionMatrix, 0, left, right, bottom, top, near, far);
     }
@@ -555,6 +454,7 @@ public class LessonSixRenderer implements GLSurfaceView.Renderer {
         mViewPosHandle = GLES20.glGetUniformLocation(mProgramHandle, "viewPos");
         mLightPosHandle = GLES20.glGetUniformLocation(mProgramHandle, "u_LightPos");
         mTextureUniformHandle = GLES20.glGetUniformLocation(mProgramHandle, "u_Texture");
+        mHeightUniformHandle = GLES20.glGetUniformLocation(mProgramHandle, "u_Height");
         mPositionHandle = GLES20.glGetAttribLocation(mProgramHandle, "a_Position");
         mNormalHandle = GLES20.glGetAttribLocation(mProgramHandle, "a_Normal");
         mTextureCoordinateHandle = GLES20.glGetAttribLocation(mProgramHandle, "a_TexCoordinate");
@@ -571,7 +471,7 @@ public class LessonSixRenderer implements GLSurfaceView.Renderer {
         // Draw a cube.
         // Translate the cube into the screen.
         Matrix.setIdentityM(mModelMatrix, 0);
-        Matrix.translateM(mModelMatrix, 0, 0.0f, 0.0f, -6f);
+        Matrix.translateM(mModelMatrix, 0, 0.0f, 0.0f, 0.0f);
 
         // Set a matrix that contains the current rotation.
         Matrix.setIdentityM(mCurrentRotation, 0);
@@ -596,6 +496,14 @@ public class LessonSixRenderer implements GLSurfaceView.Renderer {
 
         // Tell the texture uniform sampler to use this texture in the shader by binding to texture unit 0.
         GLES20.glUniform1i(mTextureUniformHandle, 0);
+
+
+
+        GLES20.glActiveTexture(GLES20.GL_TEXTURE1);
+        // Bind the texture to this unit.
+        GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, mHeightMapDataHandle);
+        // Tell the texture uniform sampler to use this texture in the shader by binding to texture unit 0.
+        GLES20.glUniform1i(mHeightUniformHandle, 1);
 
         // Pass in the texture coordinate information
         mCubeTextureCoordinates.position(0);
@@ -639,6 +547,8 @@ public class LessonSixRenderer implements GLSurfaceView.Renderer {
         if (mBrickDataHandle != 0 && mGrassDataHandle != 0) {
             GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, mBrickDataHandle);
             GLES20.glTexParameteri(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_MIN_FILTER, filter);
+            GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, mHeightMapDataHandle);
+            GLES20.glTexParameteri(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_MIN_FILTER, filter);
             GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, mGrassDataHandle);
             GLES20.glTexParameteri(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_MIN_FILTER, filter);
         } else {
@@ -649,6 +559,8 @@ public class LessonSixRenderer implements GLSurfaceView.Renderer {
     public void setMagFilter(final int filter) {
         if (mBrickDataHandle != 0 && mGrassDataHandle != 0) {
             GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, mBrickDataHandle);
+            GLES20.glTexParameteri(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_MAG_FILTER, filter);
+            GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, mHeightMapDataHandle);
             GLES20.glTexParameteri(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_MAG_FILTER, filter);
             GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, mGrassDataHandle);
             GLES20.glTexParameteri(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_MAG_FILTER, filter);
