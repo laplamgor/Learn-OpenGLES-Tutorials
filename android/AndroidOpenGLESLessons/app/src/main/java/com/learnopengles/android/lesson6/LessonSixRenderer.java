@@ -473,12 +473,9 @@ public class LessonSixRenderer implements GLSurfaceView.Renderer {
         Matrix.setIdentityM(mModelMatrix, 0);
         Matrix.translateM(mModelMatrix, 0, 0.0f, 0.0f, 0.0f);
 
-        // Set a matrix that contains the current rotation.
-        Matrix.setIdentityM(mCurrentRotation, 0);
-        Matrix.rotateM(mCurrentRotation, 0, mDeltaX, 0.0f, 1.0f, 0.0f);
-        Matrix.rotateM(mCurrentRotation, 0, mDeltaY, 1.0f, 0.0f, 0.0f);
-        mDeltaX = 0.0f;
-        mDeltaY = 0.0f;
+
+        updateRotation();
+
 
         // Multiply the current rotation by the accumulated rotation, and then set the accumulated rotation to the result.
         Matrix.multiplyMM(mTemporaryMatrix, 0, mCurrentRotation, 0, mAccumulatedRotation, 0);
@@ -541,6 +538,18 @@ public class LessonSixRenderer implements GLSurfaceView.Renderer {
         // Draw a point to indicate the light.
         GLES20.glUseProgram(mPointProgramHandle);
         drawLight();
+    }
+
+    private void updateRotation() {
+        // Set a matrix that contains the current rotation.
+        Matrix.setIdentityM(mCurrentRotation, 0);
+
+        // Rotate it half for a time to make it smooth
+        mDeltaX /= 2.0f;
+        mDeltaY /= 2.0f;
+        Matrix.rotateM(mCurrentRotation, 0, -mDeltaX, 0.0f, 1.0f, 0.0f);
+        Matrix.rotateM(mCurrentRotation, 0, -mDeltaY, 1.0f, 0.0f, 0.0f);
+
     }
 
     public void setMinFilter(final int filter) {
